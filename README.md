@@ -76,8 +76,8 @@ collections:
 * This module supports check mode.
 * This module supports all options provided by
   [containers.podman.podman_pod](https://docs.ansible.com/ansible/latest/collections/containers/podman/podman_pod_module.html#ansible-collections-containers-podman-podman-pod-module) with the following
-  exceptions: `executable', `infra_conmon_pidfile',
-  `pod_id_file', `recreate', `replace'.
+  exceptions: `executable`, `infra_conmon_pidfile`,
+  `pod_id_file`, `recreate`, `replace`.
 
 ### Options for `znerol.podluck_podluck_container` module
 
@@ -121,10 +121,10 @@ collections:
 * This module supports check mode.
 * This module supports all options provided by
   [containers.podman.podman_container](https://docs.ansible.com/ansible/latest/collections/containers/podman/podman_container_module.html#ansible-collections-containers-podman-podman-container-module) with the following
-  exceptions: `cgroups', `cidfile', `conmon_pidfile',
-  `detach', `executable', `generate_systemd',
-  `infra_conmon_pidfile', `pod_id_file', `recreate',
-  `replace'.
+  exceptions: `cgroups`, `cidfile`, `conmon_pidfile`,
+  `detach`, `executable`, `generate_systemd`,
+  `infra_conmon_pidfile`, `pod_id_file`, `recreate`,
+  `replace`.
 
 ### Variables for `znerol.podluck.podluck_pod_systemd` role
 
