@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2021-12-19
+- Add a README.md for the role
+
 ## [1.0.1] - 2021-12-19
 
 ### Changed
@@ -17,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial import
 
-[Unreleased]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/znerol/ansible-collection-podluck/releases/tag/v1.0.0
