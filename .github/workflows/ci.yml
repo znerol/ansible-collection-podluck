@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install ansible ansible-lint yamllint
-        run: sudo pipx inject --include-apps --include-deps ansible-base ansible-lint yamllint
+        run: sudo pipx inject --include-apps --include-deps ansible-core ansible-lint yamllint
 
       - name: Run yamllint
         run: yamllint .
