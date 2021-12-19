@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Fix quotes in README.md
+- Fix ci.
 - Add GPL license file.
 
 ## [1.0.0] - 2021-12-19
