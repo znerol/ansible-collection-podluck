@@ -1,0 +1,27 @@
+---
+name: Publish to Galaxy
+
+# yamllint disable-line rule:truthy
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    name: Ansible Galaxy Import
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build the collection
+        run: ansible-galaxy collection build
+
+      - name: Setup Ansible Galaxy Token
+        env:
+          ANSIBLE_GALAXY_TOKEN: "${{ secrets.ANSIBLE_GALAXY_TOKEN }}"
+        run: .github/scripts/setup-galaxy-token.sh
+
+      - name: Publish to Ansible Galaxy
+        run: ansible-galaxy collection publish znerol-podluck-*.tar.gz

@@ -1,0 +1,12 @@
+---
+- name: Required variables defined
+  assert:
+    that:
+      - podluck_pod_name is defined
+      - podluck_pod_state is defined
+
+- when: podluck_pod_state != 'absent'
+  import_tasks: pod_present.yml
+
+- when: podluck_pod_state == 'absent'
+  import_tasks: pod_absent.yml

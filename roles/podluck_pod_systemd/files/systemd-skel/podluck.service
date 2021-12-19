@@ -1,0 +1,36 @@
+[Unit]
+Description=Podman pod %p managed by podluck
+Wants=network.target
+After=network-online.target
+
+Wants=%p.target
+Before=%p.target
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Environment=PODLUCK_POD_ARGS_DEFAULT=
+Environment=PODLUCK_POD_ARGS=
+
+EnvironmentFile=-%E/podluck/default/systemd-pod-env
+EnvironmentFile=-%E/podluck/pod/%p/systemd-pod-env
+
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/podluck/pod/%p/%N.pid %t/podluck/pod/%p/%p.pod-id
+ExecStartPre=/usr/bin/podman pod create \
+    $PODLUCK_POD_ARGS_DEFAULT \
+    $PODLUCK_POD_ARGS \
+    --infra-conmon-pidfile %t/podluck/pod/%p/%N.pid \
+    --pod-id-file %t/podluck/pod/%p/%p.pod-id \
+    --replace \
+    --name %p
+ExecStart=/usr/bin/podman pod start --pod-id-file %t/podluck/pod/%p/%p.pod-id
+ExecStop=/usr/bin/podman pod stop --ignore --pod-id-file %t/podluck/pod/%p/%p.pod-id -t 10
+ExecStopPost=/usr/bin/podman pod rm --ignore -f --pod-id-file %t/podluck/pod/%p/%p.pod-id
+PIDFile=%t/podluck/pod/%p/%N.pid
+Type=forking
+
+RuntimeDirectory=podluck/pod/%p
+ConfigurationDirectory=podluck/pod/%p
+
+[Install]
+WantedBy=multi-user.target default.target

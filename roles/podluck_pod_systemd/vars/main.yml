@@ -1,0 +1,7 @@
+podluck_systemd_unit_dirs:
+  user: ~/.config/systemd/user
+  system: /usr/local/lib/systemd/system
+
+podluck_systemd_config_dirs:
+  user: ~/.config/systemd/user
+  system: /etc/systemd/system

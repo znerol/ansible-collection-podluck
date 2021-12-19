@@ -1,0 +1,22 @@
+---
+namespace: znerol
+name: podluck
+version: 1.0.0
+readme: README.md
+authors:
+  - Lorenz Schori
+description: |
+    Runs podman pods using systemd.
+license:
+  - GPL-3.0-or-later
+tags:
+  - containers
+  - podman
+dependencies:
+  containers.podman: ">=1.0.0"
+build_ignore:
+  - .github
+repository: https://github.com/znerol/ansible-collection-podluck.git
+documentation: https://github.com/znerol/ansible-collection-podluck
+homepage: https://github.com/znerol/ansible-collection-podluck
+issues: https://github.com/znerol/ansible-collection-podluck/issues

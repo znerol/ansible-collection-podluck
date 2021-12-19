@@ -1,0 +1,14 @@
+---
+- name: Required variables defined
+  assert:
+    that:
+      - podluck_container_name is defined
+      - podluck_container_dependencies is defined
+
+- name: Podluck container dependency absent
+  loop: "{{ podluck_container_dependencies }}"
+  loop_control:
+    loop_var: podluck_container_bind_name
+  file:
+    path: "{{ podluck_systemd_config_dir }}/{{ podluck_pod_name }}@{{ podluck_container_name }}.service.d/bind-to-{{ podluck_container_bind_name }}.conf"
+    state: absent

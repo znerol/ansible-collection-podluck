@@ -1,0 +1,42 @@
+[Unit]
+Description=Podman container %i in pod %p managed by podluck
+Wants=network.target
+After=network-online.target
+
+BindsTo=%p.service
+After=%p.service
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Environment=PODLUCK_CONTAINER_ARGS_DEFAULT=
+Environment=PODLUCK_CONTAINER_ARGS_POD=
+Environment=PODLUCK_CONTAINER_ARGS=
+Environment=PODLUCK_CONTAINER_IMAGE=k8s.gcr.io/pause:3.2
+Environment=PODLUCK_CONTAINER_IMAGE_CMD=
+
+EnvironmentFile=-%E/podluck/default/systemd-container-env
+EnvironmentFile=-%E/podluck/pod/%p/systemd-container-env
+EnvironmentFile=-%E/podluck/pod/%p/systemd-container-%i-env
+
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/podluck/pod/%p/%N.pid %t/podluck/pod/%p/%N.ctr-id
+ExecStart=/usr/bin/podman container run \
+    --cgroups=no-conmon \
+    $PODLUCK_CONTAINER_ARGS_DEFAULT \
+    $PODLUCK_CONTAINER_ARGS_POD \
+    $PODLUCK_CONTAINER_ARGS \
+    --conmon-pidfile %t/podluck/pod/%p/%N.pid \
+    --cidfile %t/podluck/pod/%p/%N.ctr-id \
+    --pod-id-file %t/podluck/pod/%p/%p.pod-id \
+    --replace \
+    --name %i.%p \
+    --detach \
+    ${PODLUCK_CONTAINER_IMAGE} $PODLUCK_CONTAINER_IMAGE_CMD
+ExecStop=/usr/bin/podman container stop --ignore --cidfile %t/podluck/pod/%p/%N.ctr-id -t 10
+ExecStopPost=/usr/bin/podman container rm --ignore -f --cidfile %t/podluck/pod/%p/%N.ctr-id
+PIDFile=%t/podluck/pod/%p/%N.pid
+Type=forking
+
+[Install]
+WantedBy=multi-user.target default.target
+WantedBy=%p.target

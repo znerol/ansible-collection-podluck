@@ -1,0 +1,60 @@
+---
+- name: Required variables defined
+  assert:
+    that:
+      - podluck_pod_name is defined
+      - podluck_pod_containers is defined
+      - podluck_pod_dependencies is defined
+      - podluck_systemd_scope is defined
+
+- name: Podluck systemd unit files present
+  register: podluck_pod_systemd_unit_result
+  loop:
+    - src: podluck.service
+      dest: "{{ podluck_pod_name }}.service"
+    - src: podluck@.service
+      dest: "{{ podluck_pod_name }}@.service"
+    - src: podluck.target
+      dest: "{{ podluck_pod_name }}.target"
+  copy:
+    src: "{{ podluck_systemd_skel_src }}/{{ item.src }}"
+    dest: "{{ podluck_systemd_unit_dir }}/{{ item.dest }}"
+    remote_src: "{{ podluck_systemd_skel_remote_src | default(omit) }}"
+    owner: "{{ podluck_systemd_unit_file_owner | default(omit) }}"
+    group: "{{ podluck_systemd_unit_file_group | default(omit) }}"
+    mode: "{{ podluck_systemd_unit_file_mode }}"
+
+- name: Podluck pod dependency present
+  register: podluck_pod_dependencies_result
+  with_dict: "{{ podluck_pod_dependencies }}"
+  loop_control:
+    loop_var: podluck_pod_dependency_entry
+  vars:
+    podluck_container_name: "{{ podluck_pod_dependency_entry.key }}"
+    podluck_container_dependencies: "{{ podluck_pod_dependency_entry.value | list }}"
+  include_tasks: dependencies_present.yml
+
+- name: Systemd daemon reloaded
+  when: >-
+    podluck_pod_systemd_unit_result is changed
+    or podluck_pod_dependencies_result is changed
+  systemd:
+    scope: "{{ podluck_systemd_scope }}"
+    daemon_reload: true
+
+- name: Systemd pod unit enabled/disabled
+  when: podluck_pod_enabled is defined
+  systemd:
+    name: "{{ podluck_pod_name }}.service"
+    scope: "{{ podluck_systemd_scope }}"
+    enabled: "{{ podluck_pod_enabled }}"
+
+- name: Systemd container unit enabled/disabled
+  when: podluck_pod_enabled is defined
+  loop: "{{ podluck_pod_containers }}"
+  loop_control:
+    loop_var: podluck_container_name
+  systemd:
+    name: "{{ podluck_pod_name }}@{{ podluck_container_name }}.service"
+    scope: "{{ podluck_systemd_scope }}"
+    enabled: "{{ podluck_pod_enabled }}"

@@ -1,0 +1,67 @@
+---
+# Required: Pod name, also used as the systemd service name. Must be defined
+# when role is imported / included.
+# podluck_pod_name: no-default
+
+# Optional: State, either `present` or `absent`. Defaults to `present`.
+podluck_pod_state: present
+
+# Recommended: Whether systemd units are enabled (`true`) or disabled (`false`).
+# No changes if omitted.
+# podluck_pod_enabled: default(omit)
+
+# Recommended: List of container names to start / stop when pod is started /
+# stopped.
+podluck_pod_containers: []
+
+# Optional: Mapping of dependencies where keys are container names, and values
+# are lists of container names which need to be started before.
+podluck_pod_dependencies: {}
+
+# Optional: Systemd scope (either 'system' or 'user')
+podluck_systemd_scope: system
+
+# Optional: Path to systemd units. Defaults to /usr/local/lib/systemd/system if
+# `podluck_systemd_scope` is `system` and `~/.config/systemd/user` if
+# `podluck_systemd_scope` is `user`.
+podluck_systemd_unit_dir: "{{ podluck_systemd_unit_dirs[podluck_systemd_scope] }}"
+
+# Optional: Path to systemd config directory. Defaults to /etc/systemd/system if
+# `podluck_systemd_scope` is `system` and `~/.config/systemd/user` if
+# `podluck_systemd_scope` is `user`.
+podluck_systemd_config_dir: "{{ podluck_systemd_config_dirs[podluck_systemd_scope] }}"
+
+# Optional: Path to directory with podluck systemd unit files. Defaults to the
+# ones shipped with this role.
+podluck_systemd_skel_src: systemd-skel
+
+# Optional: Whether or not to look for podluck systemd unit files on the remote
+# machine. Defaults to `false`.
+# podluck_systemd_skel_remote_src: default(omit)
+
+# Optional: Owner of copied systemd unit files. Omitted by default.
+# podluck_systemd_unit_file_owner: default(omit)
+
+# Optional: Group of copied systemd unit files. Omitted by default.
+# podluck_systemd_unit_file_group: default(omit)
+
+# Optional: Mode of copied systemd unit files. Defaults to rw-r--r--
+podluck_systemd_unit_file_mode: 0644
+
+# Optional: Owner of systemd unit override directory. Omitted by default.
+# podluck_systemd_override_dir_owner: default(omit)
+
+# Optional: Group of systemd unit override directory. Omitted by default.
+# podluck_systemd_override_dir_group: default(omit)
+
+# Optional: Mode of systemd unit override directory. Defaults to rwxr-xr-x
+podluck_systemd_override_dir_mode: 0755
+
+# Optional: Owner of systemd unit override files. Omitted by default.
+# podluck_systemd_override_file_owner: default(omit)
+
+# Optional: Group of systemd unit override files. Omitted by default.
+# podluck_systemd_override_file_group: default(omit)
+
+# Optional: Mode of systemd unit override files. Defaults to rw-r--r--
+podluck_systemd_override_file_mode: 0644

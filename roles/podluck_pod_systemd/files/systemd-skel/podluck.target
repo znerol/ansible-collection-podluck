@@ -1,0 +1,4 @@
+[Unit]
+Description=Podman pod %p containers managed by podluck
+PartOf=%p.service
+After=%p.service
