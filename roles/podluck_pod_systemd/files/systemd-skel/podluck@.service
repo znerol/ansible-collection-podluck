@@ -13,14 +13,15 @@ Environment=PODLUCK_CONTAINER_ARGS_POD=
 Environment=PODLUCK_CONTAINER_ARGS=
 Environment=PODLUCK_CONTAINER_IMAGE=k8s.gcr.io/pause:3.2
 Environment=PODLUCK_CONTAINER_IMAGE_CMD=
+Environment=PODLUCK_CONTAINER_STOP_TIMEOUT=120
 
 EnvironmentFile=-%E/podluck/default/systemd-container-env
 EnvironmentFile=-%E/podluck/pod/%p/systemd-container-env
 EnvironmentFile=-%E/podluck/pod/%p/systemd-container-%i-env
 
-TimeoutStopSec=70
+TimeoutStopSec=180
 ExecStartPre=/bin/rm -f %t/podluck/pod/%p/%N.pid %t/podluck/pod/%p/%N.ctr-id
-ExecStart=/usr/bin/podman container run \
+ExecStart=/usr/bin/env podman container run \
     --cgroups=no-conmon \
     $PODLUCK_CONTAINER_ARGS_DEFAULT \
     $PODLUCK_CONTAINER_ARGS_POD \
@@ -32,10 +33,18 @@ ExecStart=/usr/bin/podman container run \
     --name %i.%p \
     --detach \
     ${PODLUCK_CONTAINER_IMAGE} $PODLUCK_CONTAINER_IMAGE_CMD
-ExecStop=/usr/bin/podman container stop --ignore --cidfile %t/podluck/pod/%p/%N.ctr-id -t 10
-ExecStopPost=/usr/bin/podman container rm --ignore -f --cidfile %t/podluck/pod/%p/%N.ctr-id
+ExecStop=/usr/bin/env podman container stop \
+    --ignore \
+    --time ${PODLUCK_CONTAINER_STOP_TIMEOUT} \
+    --cidfile %t/podluck/pod/%p/%N.ctr-id
+ExecStopPost=/usr/bin/env podman container rm \
+    --ignore \
+    --force \
+    --cidfile %t/podluck/pod/%p/%N.ctr-id
 PIDFile=%t/podluck/pod/%p/%N.pid
 Type=forking
+
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target default.target
