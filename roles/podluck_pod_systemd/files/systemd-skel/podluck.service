@@ -10,24 +10,33 @@ Before=%p.target
 Environment=PODMAN_SYSTEMD_UNIT=%n
 Environment=PODLUCK_POD_ARGS_DEFAULT=
 Environment=PODLUCK_POD_ARGS=
+Environment=PODLUCK_POD_STOP_TIMEOUT=120
 
 EnvironmentFile=-%E/podluck/default/systemd-pod-env
 EnvironmentFile=-%E/podluck/pod/%p/systemd-pod-env
 
-TimeoutStopSec=70
+TimeoutStopSec=180
 ExecStartPre=/bin/rm -f %t/podluck/pod/%p/%N.pid %t/podluck/pod/%p/%p.pod-id
-ExecStartPre=/usr/bin/podman pod create \
+ExecStartPre=/usr/bin/env podman pod create \
     $PODLUCK_POD_ARGS_DEFAULT \
     $PODLUCK_POD_ARGS \
     --infra-conmon-pidfile %t/podluck/pod/%p/%N.pid \
     --pod-id-file %t/podluck/pod/%p/%p.pod-id \
     --replace \
     --name %p
-ExecStart=/usr/bin/podman pod start --pod-id-file %t/podluck/pod/%p/%p.pod-id
-ExecStop=/usr/bin/podman pod stop --ignore --pod-id-file %t/podluck/pod/%p/%p.pod-id -t 10
-ExecStopPost=/usr/bin/podman pod rm --ignore -f --pod-id-file %t/podluck/pod/%p/%p.pod-id
+ExecStart=/usr/bin/env podman pod start --pod-id-file %t/podluck/pod/%p/%p.pod-id
+ExecStop=/usr/bin/env podman pod stop \
+    --ignore \
+    --time ${PODLUCK_POD_STOP_TIMEOUT} \
+    --pod-id-file %t/podluck/pod/%p/%p.pod-id
+ExecStopPost=/usr/bin/env podman pod rm \
+    --ignore \
+    --force \
+    --pod-id-file %t/podluck/pod/%p/%p.pod-id
 PIDFile=%t/podluck/pod/%p/%N.pid
 Type=forking
+
+Restart=on-failure
 
 RuntimeDirectory=podluck/pod/%p
 ConfigurationDirectory=podluck/pod/%p
