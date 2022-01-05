@@ -101,6 +101,25 @@ from ansible_collections.znerol.podluck.plugins.module_utils.podluck.common impo
 from ansible_collections.znerol.podluck.plugins.module_utils.podluck.common import generate_env_content  # noqa: F402,E501
 
 
+class PodluckModuleParams(PodmanModuleParams):
+    def construct_args_from_params(self):
+        """Create args from given module parameters.
+        Returns:
+           list -- list of strings for PODLUCK_CONTAINER_ARGS env var
+        """
+        cmd = []
+        all_param_methods = [func for func in dir(self)
+                             if callable(getattr(self, func))
+                             and func.startswith("addparam")]
+        params_set = (i for i in self.params if self.params[i] is not None)
+        for param in params_set:
+            func_name = "_".join(["addparam", param])
+            if func_name in all_param_methods:
+                cmd = getattr(self, func_name)(cmd)
+
+        return cmd
+
+
 def _generate_container_config(module):
     params = {
         'name': 'ignored_name',
@@ -108,18 +127,15 @@ def _generate_container_config(module):
         'command': [],
     }
     params.update(module.params)
-    b_command = PodmanModuleParams(
+    args = PodluckModuleParams(
         'create',
         params,
         None,
         module
-    ).construct_command_from_params()
+    ).construct_args_from_params()
 
-    # FIXME: This might be a bit brittle...
-    # Strip leading stuff (create --name ignored_name)
-    # Strip trailing image (ignored_image)
     result = {
-        'PODLUCK_CONTAINER_ARGS': b_command[3:-1],
+        'PODLUCK_CONTAINER_ARGS': args,
         'PODLUCK_CONTAINER_IMAGE': [module.params['image']],
     }
 
