@@ -26,6 +26,15 @@ podluck_systemd_scope: system
 # `podluck_systemd_scope` is `user`.
 podluck_systemd_unit_dir: "{{ podluck_systemd_unit_dirs[podluck_systemd_scope] }}"
 
+# Optional: Owner of systemd unit dir. Omitted by default.
+# podluck_systemd_unit_dir_owner: default(omit)
+
+# Optional: Group of systemd unit dir. Omitted by default.
+# podluck_systemd_unit_dir_group: default(omit)
+
+# Optional: Mode of systemd unit dir. Defaults to rwxr-xr-x
+podluck_systemd_unit_dir_mode: 0755
+
 # Optional: Path to systemd config directory. Defaults to /etc/systemd/system if
 # `podluck_systemd_scope` is `system` and `~/.config/systemd/user` if
 # `podluck_systemd_scope` is `user`.

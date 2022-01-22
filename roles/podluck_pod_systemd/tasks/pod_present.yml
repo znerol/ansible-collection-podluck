@@ -7,6 +7,14 @@
       - podluck_pod_dependencies is defined
       - podluck_systemd_scope is defined
 
+- name: Systemd unit directory present
+  file:
+    state: directory
+    path: "{{ podluck_systemd_unit_dir }}"
+    owner: "{{ podluck_systemd_unit_dir_owner | default(omit) }}"
+    group: "{{ podluck_systemd_unit_dir_group | default(omit) }}"
+    mode: "{{ podluck_systemd_unit_dir_mode }}"
+
 - name: Podluck systemd unit files present
   register: podluck_pod_systemd_unit_result
   loop:
