@@ -10,12 +10,13 @@ Before=%p.target
 Environment=PODMAN_SYSTEMD_UNIT=%n
 Environment=PODLUCK_POD_ARGS_DEFAULT=
 Environment=PODLUCK_POD_ARGS=
-Environment=PODLUCK_POD_STOP_TIMEOUT=120
+Environment=PODLUCK_POD_STOP_TIMEOUT=240
 
 EnvironmentFile=-%E/podluck/default/systemd-pod-env
 EnvironmentFile=-%E/podluck/pod/%p/systemd-pod-env
 
-TimeoutStopSec=180
+TimeoutStartSec=300
+TimeoutStopSec=300
 ExecStartPre=/bin/rm -f %t/podluck/pod/%p/%N.pid %t/podluck/pod/%p/%p.pod-id
 ExecStartPre=/usr/bin/env podman pod create \
     $PODLUCK_POD_ARGS_DEFAULT \
