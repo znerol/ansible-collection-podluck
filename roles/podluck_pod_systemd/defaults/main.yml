@@ -14,9 +14,15 @@ podluck_pod_state: present
 # stopped.
 podluck_pod_containers: []
 
-# Optional: Mapping of dependencies where keys are container names, and values
-# are lists of container names which need to be started before.
-podluck_pod_dependencies: {}
+# Optional: List of dependency entries with container and wants keys:
+#     podluck_pod_dependencies:
+#       -
+#         container: container-name
+#         wants: other-container-name
+#       -
+#         container: other-container-name
+#         wants: some-additional-container-name
+podluck_pod_dependencies: []
 
 # Optional: Systemd scope (either 'system' or 'user')
 podluck_systemd_scope: system
