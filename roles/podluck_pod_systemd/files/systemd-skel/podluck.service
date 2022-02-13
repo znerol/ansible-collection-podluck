@@ -3,9 +3,6 @@ Description=Podman pod %p managed by podluck
 Wants=network.target
 After=network-online.target
 
-Wants=%p.target
-Before=%p.target
-
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
 Environment=PODLUCK_POD_ARGS_DEFAULT=
@@ -43,4 +40,4 @@ RuntimeDirectory=podluck/pod/%p
 ConfigurationDirectory=podluck/pod/%p
 
 [Install]
-WantedBy=multi-user.target default.target
+WantedBy=multi-user.target

@@ -48,5 +48,4 @@ Type=forking
 Restart=on-failure
 
 [Install]
-WantedBy=multi-user.target default.target
-WantedBy=%p.target
+WantedBy=%p.service
