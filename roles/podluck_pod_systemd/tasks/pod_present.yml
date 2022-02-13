@@ -22,8 +22,6 @@
       dest: "{{ podluck_pod_name }}.service"
     - src: podluck@.service
       dest: "{{ podluck_pod_name }}@.service"
-    - src: podluck.target
-      dest: "{{ podluck_pod_name }}.target"
   copy:
     src: "{{ podluck_systemd_skel_src }}/{{ item.src }}"
     dest: "{{ podluck_systemd_unit_dir }}/{{ item.dest }}"

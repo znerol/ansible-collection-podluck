@@ -29,7 +29,6 @@
   loop:
     - "{{ podluck_pod_name }}.service"
     - "{{ podluck_pod_name }}@.service"
-    - "{{ podluck_pod_name }}.target"
   file:
     path: "{{ podluck_systemd_unit_dir }}/{{ podluck_unit_name }}"
     state: absent
