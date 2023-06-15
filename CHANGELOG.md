@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2022-01-13
+
+### BREAKING CHANGES
+
+- Update unit files from podluck 2.0.0 (#16)
+- Use Wants and PartOf for inter-container dependencies (#15)
+
+
+## [1.0.5] - 2022-01-22
+
+### Changed
+- Ensure that systemd unit dir exists (#11)
+- Update to unit files from podluck 1.0.1 (#13)
+
+
 ## [1.0.4] - 2022-01-05
 
 ### Changed
@@ -29,7 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial import
 
-[Unreleased]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.4...HEAD
+[Unreleased]: https://github.com/znerol/ansible-collection-podluck/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.5...v2.0.0
+[1.0.5]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.1...v1.0.2

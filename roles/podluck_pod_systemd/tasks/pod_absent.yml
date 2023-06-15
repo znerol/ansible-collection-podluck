@@ -29,19 +29,15 @@
   loop:
     - "{{ podluck_pod_name }}.service"
     - "{{ podluck_pod_name }}@.service"
-    - "{{ podluck_pod_name }}.target"
   file:
     path: "{{ podluck_systemd_unit_dir }}/{{ podluck_unit_name }}"
     state: absent
 
 - name: Podluck pod dependency absent
   register: podluck_pod_dependencies_result
-  with_dict: "{{ podluck_pod_dependencies }}"
+  loop: "{{ podluck_pod_dependencies }}"
   loop_control:
-    loop_var: podluck_pod_dependency_entry
-  vars:
-    podluck_container_name: "{{ podluck_pod_dependency_entry.key }}"
-    podluck_container_dependencies: "{{ podluck_pod_dependency_entry.value | list }}"
+    loop_var: podluck_pod_dependency
   include_tasks: dependencies_absent.yml
 
 - name: Systemd daemon reloaded

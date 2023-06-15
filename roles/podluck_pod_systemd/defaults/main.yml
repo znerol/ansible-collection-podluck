@@ -14,9 +14,15 @@ podluck_pod_state: present
 # stopped.
 podluck_pod_containers: []
 
-# Optional: Mapping of dependencies where keys are container names, and values
-# are lists of container names which need to be started before.
-podluck_pod_dependencies: {}
+# Optional: List of dependency entries with container and wants keys:
+#     podluck_pod_dependencies:
+#       -
+#         container: container-name
+#         wants: other-container-name
+#       -
+#         container: other-container-name
+#         wants: some-additional-container-name
+podluck_pod_dependencies: []
 
 # Optional: Systemd scope (either 'system' or 'user')
 podluck_systemd_scope: system
@@ -25,6 +31,15 @@ podluck_systemd_scope: system
 # `podluck_systemd_scope` is `system` and `~/.config/systemd/user` if
 # `podluck_systemd_scope` is `user`.
 podluck_systemd_unit_dir: "{{ podluck_systemd_unit_dirs[podluck_systemd_scope] }}"
+
+# Optional: Owner of systemd unit dir. Omitted by default.
+# podluck_systemd_unit_dir_owner: default(omit)
+
+# Optional: Group of systemd unit dir. Omitted by default.
+# podluck_systemd_unit_dir_group: default(omit)
+
+# Optional: Mode of systemd unit dir. Defaults to rwxr-xr-x
+podluck_systemd_unit_dir_mode: 0755
 
 # Optional: Path to systemd config directory. Defaults to /etc/systemd/system if
 # `podluck_systemd_scope` is `system` and `~/.config/systemd/user` if
