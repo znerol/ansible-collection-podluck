@@ -84,13 +84,14 @@ from ansible_collections.znerol.podluck.plugins.module_utils.podluck.common impo
 from ansible_collections.znerol.podluck.plugins.module_utils.podluck.common import file_ensure_absent  # noqa: F402,E501
 from ansible_collections.znerol.podluck.plugins.module_utils.podluck.common import file_ensure_content  # noqa: F402,E501
 from ansible_collections.znerol.podluck.plugins.module_utils.podluck.common import generate_env_content  # noqa: F402,E501
+from ansible_collections.znerol.podluck.plugins.module_utils.podluck.common import podman_get_version  # noqa: F402,E501
 
 
 def _generate_pod_config(module):
     b_command = PodmanPodModuleParams(
         'create',
         module.params,
-        None,
+        podman_get_version(module),
         module
     ).construct_command_from_params()
 
