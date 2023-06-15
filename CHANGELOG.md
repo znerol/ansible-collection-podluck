@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2023-06-15
+
+### Changed
+- Collect podman version (#18)
+
+
 ## [2.0.0] - 2022-01-13
 
 ### BREAKING CHANGES
@@ -44,7 +50,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial import
 
-[Unreleased]: https://github.com/znerol/ansible-collection-podluck/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/znerol/ansible-collection-podluck/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/znerol/ansible-collection-podluck/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.5...v2.0.0
 [1.0.5]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/znerol/ansible-collection-podluck/compare/v1.0.3...v1.0.4
