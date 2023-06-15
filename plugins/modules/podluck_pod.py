@@ -91,7 +91,7 @@ def _generate_pod_config(module):
     b_command = PodmanPodModuleParams(
         'create',
         module.params,
-        podman_get_version(),
+        podman_get_version(module),
         module
     ).construct_command_from_params()
 
