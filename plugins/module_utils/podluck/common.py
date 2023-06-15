@@ -168,3 +168,10 @@ def file_ensure_absent(module):
         })
 
     return result
+
+def podman_get_version(module):
+    # pylint: disable=unused-variable
+    rc, out, err = module.run_command(['podman', b'--version'])
+    if rc != 0 or not out or "version" not in out:
+        module.fail_json(msg="%s run failed!" % 'podman')
+    return out.split("version")[1].strip()
